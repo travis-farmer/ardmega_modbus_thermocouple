@@ -43,6 +43,8 @@ InputRegisters
 0x03/A1 = Tool PSI * 100
 */
 
+#define MODBUS_SERIAL Serial1
+
 #include <SPI.h>
 #include "Adafruit_MAX31855.h"
 //#include <SoftwareSerial.h>
@@ -51,7 +53,7 @@ InputRegisters
 const uint8_t dePin = 2;
 Adafruit_MAX31855 thermocouple(10);
 
-ModbusRTUSlave modbus(Serial1, dePin); // serial port, driver enable pin for rs-485 (optional)
+ModbusRTUSlave modbus(MODBUS_SERIAL, dePin); // serial port, driver enable pin for rs-485 (optional)
 
 int coilPins[2] = {22, 24};
 bool coils[sizeof(coilPins)];
@@ -65,12 +67,12 @@ uint16_t inputRegisters[sizeof(inputRegisterPins)];
 
 void setup()
 {
-    Serial.begin(9600);
     thermocouple.begin();
     modbus.configureCoils(coils, sizeof(coilPins));                       // bool array of coil values, number of coils
     modbus.configureDiscreteInputs(discreteInputs, sizeof(discreteInputPins));     // bool array of discrete input values, number of discrete inputs
     modbus.configureHoldingRegisters(holdingRegisters, sizeof(holdingRegisterPins)); // unsigned 16 bit integer array of holding register values, number of holding registers
     modbus.configureInputRegisters(inputRegisters, sizeof(inputRegisterPins));     // unsigned 16 bit integer array of input register values, number of input registers
+    MODBUS_SERIAL.begin(9600);                     // baud rate
     modbus.begin(3, 9600);                                // slave id, baud rate, config (optional)
 
     for (int i = 0; i<sizeof(coilPins);i++) {
