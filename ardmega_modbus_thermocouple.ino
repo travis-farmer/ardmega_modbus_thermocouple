@@ -41,7 +41,6 @@ InputRegisters
 0x01 = Spindle Temp C * 100
 0x02/A0 = Air Compressor PSI * 100
 0x03/A1 = Tool PSI * 100
-
 */
 
 #include <SPI.h>
@@ -63,7 +62,6 @@ uint16_t holdingRegisters[sizeof(holdingRegisterPins)];
 int inputRegisterPins[18] = {100, 101, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
 int inputRegisterMode[sizeof(inputRegisterPins)][3] = {{1,0,0},{1,0,0},{2,0,0},{2,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0}};
 uint16_t inputRegisters[sizeof(inputRegisterPins)];
-
 
 void setup()
 {
